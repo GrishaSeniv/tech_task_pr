@@ -1,4 +1,4 @@
-package technical.task.card_order.user;
+package technical.task.card_order.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "user")
-class UserEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

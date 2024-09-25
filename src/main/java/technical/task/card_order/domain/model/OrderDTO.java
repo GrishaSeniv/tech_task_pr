@@ -1,4 +1,4 @@
-package technical.task.card_order.domain;
+package technical.task.card_order.domain.model;
 
 import java.time.Instant;
 import java.util.Objects;

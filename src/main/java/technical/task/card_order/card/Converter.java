@@ -1,7 +1,7 @@
 package technical.task.card_order.card;
 
-import technical.task.card_order.domain.CardDTO;
-import technical.task.card_order.domain.CardProjection;
+import technical.task.card_order.domain.model.CardDTO;
+import technical.task.card_order.domain.model.CardProjection;
 
 import java.util.List;
 

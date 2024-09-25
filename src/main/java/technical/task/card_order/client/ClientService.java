@@ -3,8 +3,8 @@ package technical.task.card_order.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import technical.task.card_order.domain.ClientDTO;
-import technical.task.card_order.domain.ClientProjection;
+import technical.task.card_order.domain.model.ClientDTO;
+import technical.task.card_order.domain.model.ClientProjection;
 
 import java.util.List;
 
