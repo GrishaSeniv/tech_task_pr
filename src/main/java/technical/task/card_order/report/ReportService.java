@@ -13,6 +13,7 @@ import technical.task.card_order.domain.OrderServiceAware;
 import technical.task.card_order.domain.UserServiceAware;
 import technical.task.card_order.domain.model.UserReportProjection;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -55,13 +56,26 @@ class ReportService {
         List<ReportResponse.OperatorReportResponse> operatorReports = reportResponse.getOperatorReports();
         logger.info("Export report: {}", reportResponse);
         StringWriter writer = new StringWriter();
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.builder().setHeader("Загальна кількість клієнтів", "Загальна кількість замовлень", "Логін оператора", "ПІБ оператора", "Оброблено замовлень оператором").build())) {
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord("Загальна кількість клієнтів");
+            csvPrinter.printRecord(reportResponse.getClientCount());
+            csvPrinter.println();
+
+            csvPrinter.printRecord("Загальна кількість замовлень");
+            csvPrinter.printRecord(reportResponse.getOrderCount());
+            csvPrinter.println();
+
+            csvPrinter.printRecord("Логін оператора", "ПІБ оператора", "Оброблено замовлень оператором");
+
             for (ReportResponse.OperatorReportResponse record : operatorReports) {
-                csvPrinter.printRecord(reportResponse.getClientCount(), reportResponse.getOrderCount(), record.getOperatorLogin(), record.getOperatorFLN(), record.getOperatorOrderCount());
+                csvPrinter.printRecord(reportResponse.getClientCount(), reportResponse.getOrderCount(),
+                        record.getOperatorLogin(), record.getOperatorFLN(),
+                        record.getOperatorOrderCount());
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             String msg = "Something went wrong while exporting report";
-            logger.error(msg);
+            logger.error(msg, e);
             throw new RuntimeException(msg, e);
         }
 
