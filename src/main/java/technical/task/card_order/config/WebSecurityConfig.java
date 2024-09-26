@@ -37,11 +37,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Allow all paths
-                .allowedOrigins("http://127.0.0.1:5500") // Change this to your frontend URL
-                .allowedMethods("*") // Specify allowed methods
-                .allowedHeaders("*") // Allow all headers
-                .allowCredentials(true); // Allow credentials if needed
+        registry.addMapping("/**")
+                .allowedOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 
     @Bean
