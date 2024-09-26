@@ -14,7 +14,7 @@ import java.util.Objects;
  * @version 2024-09-24
  */
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 public class UserEntity {
 
     @Id

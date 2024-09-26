@@ -17,15 +17,21 @@ import static technical.task.card_order.util.JsonUtils.fromJson;
  * @author Hryhorii Seniv
  * @version 2024-09-25
  */
-class UserInfoDetails implements UserDetails {
+public class UserInfoDetails implements UserDetails {
     private final Long id;
     private final String login;
+    private final String firstName;
+    private final String lastName;
+    private final String surname;
     private final String password;
     private List<GrantedAuthority> authorities = Collections.emptyList();
 
     public UserInfoDetails(UserEntity entity) {
         id = entity.getId();
         login = entity.getLogin();
+        firstName = entity.getFirstName();
+        lastName = entity.getLastName();
+        surname = entity.getSurname();
         password = entity.getPassword();
         String[] roles = fromJson(entity.getRoles(), String[].class);
         if (roles == null) {
@@ -53,5 +59,17 @@ class UserInfoDetails implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 }

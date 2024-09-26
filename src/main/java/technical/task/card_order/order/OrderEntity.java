@@ -20,23 +20,26 @@ import java.util.Objects;
 // client-user MANY-to-ONE (user means operator, who added this client to the system)
 // card-user MANY-to-ONE (user means operator, who added this card to the system)
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "client_id", nullable = false)
+    @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by")
     private Long createdBy;
 
-    @Column(name = "card_id", nullable = false)
+    @Column(name = "card_id")
     private Long cardId;
+
+    @Column(name = "card_number")
+    private String cardNumber;
 
     public Long getId() {
         return id;
@@ -83,6 +86,15 @@ class OrderEntity {
         return this;
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public OrderEntity setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,6 +116,7 @@ class OrderEntity {
                 ", clientId=" + clientId +
                 ", createdBy=" + createdBy +
                 ", cardId=" + cardId +
+                ", cardNumber='" + cardNumber + '\'' +
                 '}';
     }
 }

@@ -38,11 +38,12 @@ CREATE TABLE card
 
 CREATE TABLE `order`
 (
-    `id`         BIGINT    NOT NULL AUTO_INCREMENT COMMENT 'Primary key, auto-incremented unique identifier for each order',
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the order was created',
-    `client_id`  BIGINT    NOT NULL COMMENT 'Client ID, for which this card will be ordered',
-    `created_by` BIGINT    NOT NULL COMMENT 'Operator ID (who created this order)',
-    `card_id`    BIGINT    NOT NULL COMMENT 'Card ID for the order',
+    `id`          BIGINT    NOT NULL AUTO_INCREMENT COMMENT 'Primary key, auto-incremented unique identifier for each order',
+    `created_at`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the order was created',
+    `client_id`   BIGINT    NOT NULL COMMENT 'Client ID, for which this card will be ordered',
+    `created_by`  BIGINT    NOT NULL COMMENT 'Operator ID (who created this order)',
+    `card_id`     BIGINT    NOT NULL COMMENT 'Card ID for the order',
+    `card_number` VARCHAR(16) UNIQUE COMMENT 'Card number for the order',
     PRIMARY KEY (`id`),
     FOREIGN KEY (`client_id`) REFERENCES client (`id`),
     FOREIGN KEY (`card_id`) REFERENCES card (`id`),

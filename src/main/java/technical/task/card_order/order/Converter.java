@@ -1,8 +1,10 @@
 package technical.task.card_order.order;
 
+import technical.task.card_order.domain.model.CreateOrderRequest;
 import technical.task.card_order.domain.model.OrderDTO;
 import technical.task.card_order.domain.model.OrderProjection;
 
+import java.time.Instant;
 import java.util.List;
 
 import static technical.task.card_order.util.Utils.getFLN;
@@ -25,9 +27,17 @@ class Converter {
                 .setFirstName(projection.getFirstName())
                 .setLastName(projection.getLastName())
                 .setFirstNameLat(projection.getFirstNameLat())
-                .setLastName(projection.getLastNameLat())
+                .setLastNameLat(projection.getLastNameLat())
                 .setOperatorFLN(getFLN(projection.getOperatorFirstName(), projection.getOperatorLastName(), projection.getOperatorSurname()))
                 .setCardName(projection.getCardName())
                 .setCardNumber(projection.getCardNumber());
+    }
+
+    public static OrderEntity toEntity(CreateOrderRequest request, Long operatorId) {
+        return new OrderEntity()
+                .setCreatedAt(Instant.now())
+                .setClientId(request.getClientId())
+                .setCardId(request.getCardId())
+                .setCreatedBy(operatorId);
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import technical.task.card_order.security.JwtAuthFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -26,16 +28,26 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
     private final JwtAuthFilter authFilter;
 
     public WebSecurityConfig(JwtAuthFilter authFilter) {
         this.authFilter = authFilter;
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // Allow all paths
+                .allowedOrigins("http://127.0.0.1:5500") // Change this to your frontend URL
+                .allowedMethods("*") // Specify allowed methods
+                .allowedHeaders("*") // Allow all headers
+                .allowCredentials(true); // Allow credentials if needed
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         return http
+                .cors(withDefaults())
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
                         .anyRequest().authenticated()

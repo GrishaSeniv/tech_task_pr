@@ -8,8 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import technical.task.card_order.domain.UserServiceAware;
+import technical.task.card_order.domain.model.UserDTO;
 import technical.task.card_order.domain.model.UserEntity;
 import technical.task.card_order.domain.model.UserRegisterRequest;
+import technical.task.card_order.domain.model.UserReportProjection;
 import technical.task.card_order.domain.type.Role;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import static technical.task.card_order.user.Converter.toEntity;
 @Service
 class UserService implements UserDetailsService, UserServiceAware {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private static final List<Role> DEFAULT_ROLES = List.of(Role.USER);
+    private static final List<Role> DEFAULT_ROLES = List.of(Role.USER, Role.ADMIN);
     private final UserRepository repository;
     private final PasswordEncoder encoder;
 
@@ -46,10 +48,27 @@ class UserService implements UserDetailsService, UserServiceAware {
                 });
     }
 
+    @Override
     public void addUser(UserRegisterRequest req) {
         logger.info("Saving user with login: {}", req.getLogin());
         req.setPassword(encoder.encode(req.getPassword()));
         repository.save(toEntity(req, DEFAULT_ROLES));
         logger.info("Successfully saved user with login: {}", req.getLogin());
+    }
+
+    @Override
+    public List<UserReportProjection> getUserReport() {
+        return repository.getUserReportForCurrentMonth();
+    }
+
+    public UserDTO getById(Long id) {
+        logger.info("Get user by id: {}", id);
+        Optional<UserEntity> user = repository.findById(id);
+        return user.map(Converter::toUserDTO)
+                .orElseThrow(() -> {
+                    String msg = "User not found " + id;
+                    logger.error(msg);
+                    return new UsernameNotFoundException(msg);
+                });
     }
 }
