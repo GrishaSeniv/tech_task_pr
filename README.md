@@ -1,1 +1,8 @@
-# tech_task_pr
+# Tech task Pr backend
+
+How to start?
+
+````
+docker compose up --build
+````
+
