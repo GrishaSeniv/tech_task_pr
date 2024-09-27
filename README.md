@@ -1,4 +1,4 @@
-# tech_task_pr
+# Tech task Pr backend
 
 docker command:
 
