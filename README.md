@@ -1,6 +1,8 @@
 # Tech task Pr backend
 
-docker command:
+How to start?
 
+````
 docker compose up --build
+````
 
